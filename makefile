@@ -30,21 +30,21 @@ logo_print:
 comp:
 	vlog -coveropt 3 +cover -L $(QUESTA_HOME)/uvm-1.2 +define+$(DUMP_OPTS) $(INC_DIR) $(DUT_FILE) $(TOP_FILE)
 
-vsim:
+vsim_example:
 	rm -rf $(LOG_DIR)/$(TEST_NAME)_$(SEED)
 	rm -rf $(TEST_NAME)_$(SEED).ucdb
 	mkdir $(LOG_DIR)/$(TEST_NAME)_$(SEED)
 	vsim -c -debugDB -sv_seed $(SEED) -cvgperinstance -voptargs=+acc -coverage -voptargs="+cover=all" +UVM_VERBOSITY=UVM_MEDIUM +UVM_TESTNAME=$(TEST_NAME) -l $(LOG_DIR)/$(TEST_NAME)_$(SEED)/$(TEST_NAME)_$(SEED).log -do "coverage save -onexit $(LOG_DIR)/$(TEST_NAME)_$(SEED)/$(TEST_NAME)_$(SEED).ucdb;do $(SIM_DIR)/wave.do; run -all; exit" work.top
 
-run:	comp sim
+run_example:	comp sim
 
-vsim_npn: 
+sim: 
 	vsim -c -debugDB $(SIM_OPTS) -do "do $(SIM_DIR)/wave.do; run -all; exit" work.tb_top
 
 vsim_gui: 
 	vsim -debugDB $(SIM_OPTS) -do "do $(SIM_DIR)/wave.do; run -all; exit" work.tb_top
 
-run_npn: logo_print comp vsim_npn
+run: logo_print comp sim
 
 run_gui: logo_print comp vsim_gui
 

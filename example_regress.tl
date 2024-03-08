@@ -1,2 +1,11 @@
-lsb_8bit_data_test -l lsb_8bit_data_test.log
-lsb_8bit_data_test +MSB_1ST -l msb_8bit_data_test.log
+lsb_8bit_data_test	1  	+UVM_TESTNAME=lsb_8bit_data_test  
+lsb_8bit_data_test	1  	+UVM_TESTNAME=lsb_8bit_data_test   +MSB_1ST 
+lsb_16bit_data_test	1	+UVM_TESTNAME=lsb_16bit_data_test  
+lsb_32bit_data_test	1	+UVM_TESTNAME=lsb_32bit_data_test  
+lsb_64bit_data_test	1	+UVM_TESTNAME=lsb_64bit_data_test  
+lsb_128bit_data_test	1	+UVM_TESTNAME=lsb_128bit_data_test 
+msb_8bit_data_test	1	+UVM_TESTNAME=msb_8bit_data_test   
+msb_16bit_data_test	1	+UVM_TESTNAME=msb_16bit_data_test  
+msb_32bit_data_test	1	+UVM_TESTNAME=msb_32bit_data_test  
+msb_64bit_data_test	1	+UVM_TESTNAME=msb_64bit_data_test  
+msb_128bit_data_test	1	+UVM_TESTNAME=msb_128bit_data_test 
