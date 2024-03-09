@@ -84,15 +84,15 @@ do
 
 	echo "Running test: ${test_name[$i]} with seed value:$SEED_VALUE"
 	
-	echo "make run SIM_OPTS="${sim_opts[$i]} -sv_seed $SEED_VALUE -l ${test_name[$i]}_$SEED_VALUE.log +UVM_TIMEOUT=100000000 +UVM_MAX_QUIT_COUNT=100"" > $regress_dir/${test_name[$i]}_$SEED_VALUE/replay_cmd
+	echo "make run SIM_OPTS="${sim_opts[$i]} -sv_seed $SEED_VALUE -l ${test_name[$i]}_$SEED_VALUE.log +UVM_TIMEOUT=100000000 +UVM_MAX_QUIT_COUNT=100"" > $regress_dir/${test_name[$i]}_$SEED_VALUE/run_cmd
 	
-	read -r line < $regress_dir/${test_name[$i]}_$SEED_VALUE/replay_cmd
+	read -r line < $regress_dir/${test_name[$i]}_$SEED_VALUE/run_cmd
 	echo -e "Run command: $line"
 
 	make run SIM_OPTS="${sim_opts[$i]} -sv_seed $SEED_VALUE -l ${test_name[$i]}_$SEED_VALUE.log +UVM_TIMEOUT=100000000 +UVM_MAX_QUIT_COUNT=100" >/dev/null
 
 	
-	#echo $run_cmd_var > $regress_dir/${test_name[$i]}_$SEED_VALUE/replay_cmd
+	#echo $run_cmd_var > $regress_dir/${test_name[$i]}_$SEED_VALUE/run_cmd
 
 	mv ${test_name[$i]}_$SEED_VALUE.* $regress_dir/${test_name[$i]}_$SEED_VALUE/
 	#TODO: post regression script
