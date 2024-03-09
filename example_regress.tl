@@ -1,11 +1,3 @@
-lsb_8bit_data_test	1  	+UVM_TESTNAME=lsb_8bit_data_test  
-lsb_8bit_data_test	1  	+UVM_TESTNAME=lsb_8bit_data_test   +MSB_1ST 
-lsb_16bit_data_test	1	+UVM_TESTNAME=lsb_16bit_data_test  
-lsb_32bit_data_test	1	+UVM_TESTNAME=lsb_32bit_data_test  
-lsb_64bit_data_test	1	+UVM_TESTNAME=lsb_64bit_data_test  
-lsb_128bit_data_test	1	+UVM_TESTNAME=lsb_128bit_data_test 
-msb_8bit_data_test	1	+UVM_TESTNAME=msb_8bit_data_test   
-msb_16bit_data_test	1	+UVM_TESTNAME=msb_16bit_data_test  
-msb_32bit_data_test	1	+UVM_TESTNAME=msb_32bit_data_test  
-msb_64bit_data_test	1	+UVM_TESTNAME=msb_64bit_data_test  
-msb_128bit_data_test	1	+UVM_TESTNAME=msb_128bit_data_test 
+lsb_8bit_data_test	2  	+RX_NEG=0 +TX_NEG=1 +CHAR_LEN=8 +CHAR_LEN=16 +CHAR_LEN=32 +CHAR_LEN=64 +CHAR_LEN=127 +CHAR_LEN=0 
+lsb_8bit_data_test	2  	+MSB_1ST +RX_NEG=0 +TX_NEG=1 +CHAR_LEN=8 +CHAR_LEN=16 +CHAR_LEN=32 +CHAR_LEN=64 +CHAR_LEN=127 +CHAR_LEN=0
+lsb_8bit_data_test	3  	+MSB_1ST 
