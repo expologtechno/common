@@ -10,7 +10,7 @@
 #done < spi_regress.tl
 
 tput clear 
-cat EXPOLOG_logo.txt
+cat $CMN_DIR/EXPOLOG_logo.txt
 echo "Starting Regression..."
 
 #REGRESS_TL=${@:$OPTIND:1}
@@ -89,7 +89,8 @@ do
 	read -r line < $regress_dir/${test_name[$i]}_$SEED_VALUE/run_cmd
 	echo -e "Run command: $line"
 
-	make run_regress TEST_NAME="${test_name[$i]}" LOG_NAME="${test_name[$i]}_$SEED_VALUE" SIM_OPTS="${sim_opts[$i]} -sv_seed $SEED_VALUE +UVM_TIMEOUT=100000000 +UVM_MAX_QUIT_COUNT=100" >/dev/null
+	#make run_regress TEST_NAME="${test_name[$i]}" LOG_NAME="${test_name[$i]}_$SEED_VALUE" SIM_OPTS="${sim_opts[$i]} -sv_seed $SEED_VALUE +UVM_TIMEOUT=100000000 +UVM_MAX_QUIT_COUNT=100" >/dev/null
+	make run_regress LOG_NAME="${test_name[$i]}_$SEED_VALUE" SIM_OPTS="${sim_opts[$i]} -sv_seed $SEED_VALUE +UVM_TIMEOUT=100000000 +UVM_MAX_QUIT_COUNT=100" >/dev/null
 
 	
 	#echo $run_cmd_var > $regress_dir/${test_name[$i]}_$SEED_VALUE/run_cmd
