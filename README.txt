@@ -1,9 +1,9 @@
 Steps to execute: 
-	1. Copy the files from common repo to your project sim area
-	2. Edits the path in PROJECT.bashrc if required 
-		you can check if the variables are set properly or not by using following command
-		echo $PROJ_ROOT   <--- this will print the variable value
-	3. Edit the DUT_FILE name in make file for your project
+	1. Clone common repo
+	2. Copy PROJECT.bashrc to scratch_area/sim --> rename as per project ex: AHB.bashrc 
+	3. Edit the DUT_FILE name and other paths 
+	4. Create a tl file for regression in format specified below
+	5. source the *.bashrc <-- required whenver changes happens to bashrc file 
 
 Guidelines to be followed: 
 	1. TB TOP file module name should be tb_top and file name can be tb_top.sv
@@ -18,11 +18,10 @@ Guidelines to be followed:
 		
 
 project_regress.tl file format:
-test_name 	interation_no		+plusargs +defines
+user_deined_test_name 		interation_no		+UVM_TESTNAME=your_test_name +plusargs +defines
 
 To run the regression:
-	chmod +x project_regress.tl   (<--- only first time)
-	./regress.csh project_regress.tl
+	make regress
 
 To run single test:
 	make run TEST_NAME="your_test_name" SIM_OPTS="your_plusargs_or_defines"
