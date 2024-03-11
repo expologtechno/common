@@ -35,3 +35,6 @@ echo "TB_DIR	   = 	$TB_DIR		"
 echo "DUT_FILE	   = 	$DUT_FILE	"
 echo "TOP_FILE	   = 	$TOP_FILE	"
 echo "TL_FILE	   = 	$TL_FILE.tl	"
+
+echo "Linking the makefile from common area"
+ln -s $CMN_DIR/makefile

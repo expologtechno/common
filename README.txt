@@ -9,8 +9,8 @@ Guidelines to be followed:
 	1. TB TOP file module name should be tb_top and file name can be tb_top.sv
 	2. Everyone should follow the Directory stucture - other wise makefile will not work (you may need to update again)
 	3. Test result should be printed propery using UVM_INFO
-		pass pattern : !!! TEST PASSED !!!
-		fail pattern : !!! TEST FAILED !!! 
+		pass pattern : !!!TEST PASSED!!!
+		fail pattern : !!!TEST FAILED!!! 
 	4. all the directory names should be in lower case
 		proper names: 	project_area/  scratch_area/
 		improper names:	Project_Area/  Scractch_area/  
@@ -27,13 +27,16 @@ To run single test:
 	make run TEST_NAME="your_test_name" SIM_OPTS="your_plusargs_or_defines"
 
 To Open the waves:
-	make waves
+	make wave
 
 To clean sim area : (delete indivisual logs and other vsim files)
 	make clean
 
 To clean regression folders:
 	make clean_regress
+
+To generate coverage report:
+	make cov_merge
 
 
 Git commands:
@@ -68,6 +71,24 @@ To push the modified files to repo:
 	>enter your user name
 	>enter pass token generated from git hub
 
+Directory structure:
+	your_folder
+		|		
+		|
+		| 
+		|common
 
- 
-
+		|Project_root_dir
+			docs
+			project_area 
+				RTL
+					design files
+				verif
+					TB
+					seq
+					test	
+					agent
+			scratch_area
+				sim
+					project_name.bashrc
+					project_name.tl
