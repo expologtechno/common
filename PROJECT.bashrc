@@ -1,3 +1,13 @@
+######################################################################
+#  	(c) Copyright 2021 EXPOLOG TECHNOLOGIES LLP
+#  		    ALL RIGHTS RESERVED
+#  	     EXPOLOG TECHNOLOGIES CONFIDENTIAL
+#=====================================================================
+#  File 	: PROJECT.bashrc
+#  Author 	: Praveen N
+#  
+######################################################################
+
 echo "setting project environments"
 #export PROJ_ROOT=C:/home/$USER/Documents/WB_SPI_master
 #export PROJ_ROOT=$PWD
@@ -10,6 +20,10 @@ export SIM_DIR=$SCRATCH_AREA/sim
 export RTL_DIR=$PROJ_AREA/design/rtl
 export VRF_DIR=$PROJ_AREA/verif
 export TB_DIR=$VRF_DIR/tb
+export AGENT_DIR=$VRF_DIR/agent
+export TEST_DIR=$VRF_DIR/test
+export SEQ_DIR=$VRF_DIR/seqs
+
 export LOG_DIR=$PROJ_ROOT/../sim_logs
 
 #DUT FILE

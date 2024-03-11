@@ -1,5 +1,16 @@
 #!/bin/sh
 
+######################################################################
+#  	(c) Copyright 2021 EXPOLOG TECHNOLOGIES LLP
+#  		    ALL RIGHTS RESERVED
+#  	     EXPOLOG TECHNOLOGIES CONFIDENTIAL
+#=====================================================================
+#  File 	: regress.csh
+#  Author 	: Praveen N
+#  
+######################################################################
+
+
 #while read -r line
 #do
 #	echo -e $line

@@ -1,9 +1,19 @@
+######################################################################
+#  	(c) Copyright 2021 EXPOLOG TECHNOLOGIES LLP
+#  		    ALL RIGHTS RESERVED
+#  	     EXPOLOG TECHNOLOGIES CONFIDENTIAL
+#=====================================================================
+#  File 	: makefile
+#  Author 	: Praveen N
+#  
+######################################################################
+
 DUMP_OPTS=DUMP_ON
 
 #TB_DIR=$(VRF_DIR)/tb
-AGENT_DIR=$(VRF_DIR)/agent
-SEQ_DIR=$(VRF_DIR)/seqs
-TEST_DIR=$(VRF_DIR)/test
+#AGENT_DIR=$(VRF_DIR)/agent
+#SEQ_DIR=$(VRF_DIR)/seqs
+#TEST_DIR=$(VRF_DIR)/test
 
 #DUT_FILE=$(RTL_DIR)/cmsdk_ahb_ram.v
 #TOP_FILE=$(TB_DIR)/top.sv

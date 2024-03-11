@@ -1,3 +1,13 @@
+######################################################################
+#  	(c) Copyright 2021 EXPOLOG TECHNOLOGIES LLP
+#  		    ALL RIGHTS RESERVED
+#  	     EXPOLOG TECHNOLOGIES CONFIDENTIAL
+#=====================================================================
+#  File 	: README.txt 
+#  Author 	: Praveen N
+#  
+######################################################################
+
 Steps to execute: 
 	1. Clone common repo
 	2. Copy PROJECT.bashrc to scratch_area/sim --> rename as per project ex: AHB.bashrc 
