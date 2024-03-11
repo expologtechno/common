@@ -75,7 +75,7 @@ run_gui: logo_print comp vsim_gui
 
 cov_merge:
 	vcover merge merge.ucdb $(TL_FILE)_*/*/*.ucdb	
-	vcover report -cvg -details -assert -directive -html merge.ucdb
+	vcover report -html -output $(TL_FILE)_covreport -annotate -details -assert -directive -cvg -code bcefst -threshL 50 -threshH 90 merge.ucdb
 
 clean:
 	rm -rf work
