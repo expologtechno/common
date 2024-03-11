@@ -30,7 +30,13 @@ REGRESS_TL=$1;
 #store testname and iteration number
 while read -r line
 do
-	echo -e $line >> temp_regress_file
+	if [[ $line != *"#"* ]]
+	then
+		if [ "$line" != "" ]
+		then
+			echo -e $line >> temp_regress_file
+		fi
+	fi
 done < $REGRESS_TL
 
 awk '{print $1}' temp_regress_file > temp_test_name
