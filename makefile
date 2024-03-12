@@ -48,8 +48,8 @@ sim:
 sim_regress:
 	vsim -c -debugDB $(SIM_OPTS) -l $(LOG_NAME).log -cvgperinstance -voptargs=+acc -coverage -voptargs="+cover=all" -do "coverage save -onexit $(LOG_NAME).ucdb;run -all; exit"   work.tb_top
 	tr -d '\r' < $(CMN_DIR)/EXPOLOG_logo.txt > temp_file
-	tr -d '\r' < $(TEST_NAME).log > temp_file_1
-	cat temp_file temp_file_1 > temp_log && mv temp_log $(TEST_NAME).log 
+	tr -d '\r' < $(LOG_NAME).log > temp_file_1
+	cat temp_file temp_file_1 > temp_log && mv temp_log $(LOG_NAME).log
 	rm temp_file*
 
 run: logo_print comp sim
