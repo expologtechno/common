@@ -81,6 +81,17 @@ export regress_dir="${REGRESS_TL%.*}_$(date +%Y%m%d_%H%M%S)"
 #mkdir -p "${REGRESS_TL%.*}_$(date +%Y%m%d_%H%M%S)"
 mkdir -p $regress_dir
 
+total_sims=0
+for i in ${iter_opts[@]}
+do
+    total_sims=`expr $total_sims + $i`
+done
+
+rem_sims=$total_sims
+
+echo "Number of tests : $num_tests"
+echo "Number of sims  : $total_sims"
+
 #Launch the regression 
 tput sc 
 i=0
@@ -99,6 +110,9 @@ do
 	#mkdir $test_dir
 	mkdir $regress_dir/${test_name[$i]}_$SEED_VALUE
 
+	((rem_sims--))
+
+	echo "Running test: "`expr $i + 1`"  	Iteration: "`expr $j + 1`"	remaining_iterations: "`expr ${iter_opts[$i]} - 1 - $j`"	remaining sims: $rem_sims"
 	echo "Running test: ${test_name[$i]} with seed value:$SEED_VALUE"
 	
 	echo "make run TEST_NAME='"${test_name[$i]}"' SIM_OPTS='"${sim_opts[$i]} -sv_seed $SEED_VALUE -l ${test_name[$i]}_$SEED_VALUE.log +UVM_TIMEOUT=100000000 +UVM_MAX_QUIT_COUNT=100"'" > $regress_dir/${test_name[$i]}_$SEED_VALUE/run_cmd
