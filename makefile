@@ -40,19 +40,17 @@ run_example:	comp sim
 
 sim: 
 	vsim -c -debugDB +UVM_TESTNAME=$(TEST_NAME) $(SIM_OPTS) -l $(TEST_NAME).log -cvgperinstance -voptargs=+acc -coverage -voptargs="+cover=all" -do "coverage save -onexit $(TEST_NAME).ucdb; do $(CMN_DIR)/wave.do; run -all; exit" work.tb_top
-	#mv $(TEST_NAME).* $(LOG_DIR)/ 
-	cat $(TEST_NAME).log > temp_log 
-	cat $(CMN_DIR)/EXPOLOG_logo.txt > $(TEST_NAME).log
-	cat temp_log >> $(TEST_NAME).log
-	rm temp_log
+	tr -d '\r' < $(CMN_DIR)/EXPOLOG_logo.txt > temp_file
+	tr -d '\r' < $(TEST_NAME).log > temp_file_1
+	cat temp_file temp_file_1 > temp_log && mv temp_log $(TEST_NAME).log 
+	rm temp_file*
 
 sim_regress:
 	vsim -c -debugDB $(SIM_OPTS) -l $(LOG_NAME).log -cvgperinstance -voptargs=+acc -coverage -voptargs="+cover=all" -do "coverage save -onexit $(LOG_NAME).ucdb;run -all; exit"   work.tb_top
-	cat $(LOG_NAME).log > temp_log 
-	cat $(CMN_DIR)/EXPOLOG_logo.txt > $(LOG_NAME).log
-	cat temp_log >> $(LOG_NAME).log
-	rm temp_log
-
+	tr -d '\r' < $(CMN_DIR)/EXPOLOG_logo.txt > temp_file
+	tr -d '\r' < $(TEST_NAME).log > temp_file_1
+	cat temp_file temp_file_1 > temp_log && mv temp_log $(TEST_NAME).log 
+	rm temp_file*
 
 run: logo_print comp sim
 
@@ -79,14 +77,14 @@ cov_merge:
 	vcover report -html -source -details -assert -directive -cvg -code bcefst -threshL 50 -threshH 90 merge.ucdb
 
 clean:
-	rm -rf work
-	rm *.log
-	rm *.ucdb
-	rm vsim.*
-	rm -rf covhtmlreport
-	rm merge.ucdb
+	rm -rf work &
+	rm *.log &
+	rm *.ucdb &
+	rm vsim.* 
 
 clean_regress:
+	rm -rf covhtmlreport &
+	rm merge.ucdb &
 	rm -rf $(TL_FILE)_*
 
 #run_reg: comp lsb_fst_data_test msb_fst_data_test Rx_raising_Tx_falling_test Rx_falling_Tx_raising_test
