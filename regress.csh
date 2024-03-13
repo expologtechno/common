@@ -81,6 +81,8 @@ export regress_dir="${REGRESS_TL%.*}_$(date +%Y%m%d_%H%M%S)"
 #mkdir -p "${REGRESS_TL%.*}_$(date +%Y%m%d_%H%M%S)"
 mkdir -p $regress_dir
 
+cp $CMN_DIR/EXPOLOG_logo.txt $regress_dir/regress_summary.txt
+
 total_sims=0
 for i in ${iter_opts[@]}
 do
@@ -91,6 +93,16 @@ rem_sims=$total_sims
 
 echo "Number of tests : $num_tests"
 echo "Number of sims  : $total_sims"
+
+PASS_STRING="!!!TEST PASSED!!!"
+FAIL_STRING="!!!TEST FAILED!!!"
+
+passed_count=0
+failed_count=0
+incomplete_cnt=0
+
+curr_pass_cnt=0
+curr_fail_cnt=0
 
 #Launch the regression 
 tput sc 
@@ -103,11 +115,6 @@ do
    	tput rc
   	SEED_VALUE=$RANDOM;
 
-	#run_cmd_var=`make run SIM_OPTS="${sim_opts[$i]} -sv_seed $SEED_VALUE -l ${test_name[$i]}_$SEED_VALUE.log +UVM_TIMEOUT=100000000 +UVM_MAX_QUIT_COUNT=100"`
-	#echo -e $run_cmd_var
-
-	#test_dir="$regress_dir/${test_name[$i]}_$SEED_VALUE"
-	#mkdir $test_dir
 	mkdir $regress_dir/${test_name[$i]}_$SEED_VALUE
 
 	((rem_sims--))
@@ -123,10 +130,44 @@ do
 	#make run_regress TEST_NAME="${test_name[$i]}" LOG_NAME="${test_name[$i]}_$SEED_VALUE" SIM_OPTS="${sim_opts[$i]} -sv_seed $SEED_VALUE +UVM_TIMEOUT=100000000 +UVM_MAX_QUIT_COUNT=100" >/dev/null
 	make run_regress LOG_NAME="${test_name[$i]}_$SEED_VALUE" SIM_OPTS="${sim_opts[$i]} -sv_seed $SEED_VALUE +UVM_TIMEOUT=100000000 +UVM_MAX_QUIT_COUNT=100" >/dev/null
 
-	
 	#echo $run_cmd_var > $regress_dir/${test_name[$i]}_$SEED_VALUE/run_cmd
 
 	mv ${test_name[$i]}_$SEED_VALUE.* $regress_dir/${test_name[$i]}_$SEED_VALUE/
+
+	#regression summary:
+	#if grep -q "$PASS_STRING" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log"; then
+
+	# Search for "PASSED" or "FAILED" in the log file
+	curr_pass_cnt=$(grep -c "$PASS_STRING" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log")	
+	curr_fail_cnt=$(grep -c "$FAIL_STRING" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log")
+
+	passed_count=`expr $passed_count + $curr_pass_cnt`
+	failed_count=`expr $failed_count + $curr_fail_cnt`
+	
+	if [ "$curr_pass_cnt" -eq 0 ] && [ "$curr_fail_cnt" -eq 0 ]; then
+		((incomplete_cnt++))
+	fi
+
+	# Print the table
+	{
+		printf "\n=====================================================================================================\n"	
+		printf "| Log File: %-10s \n" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log"
+		printf "|-----------------------------------------------------------------------------------------------------\n"	
+		printf "| %-10s | %-10s | \n" "Result" "Count"  
+		printf "| %-10s | %-10s | \n" "PASSED" "$passed_count" 
+		printf "| %-10s | %-10s | \n" "FAILED" "$failed_count" 
+		printf "| %-10s | %-10s | \n" "INCOMPLETE" "$incomplete_cnt" 
+		printf "|-----------------------------------------------------------------------------------------------------\n"	
+		printf "| Regress summary : %-10s \n" "$regress_dir/regress_summary.txt"
+		printf "=====================================================================================================\n \n"	
+	} > temp_summary 
+
+	cat temp_summary >> $regress_dir/regress_summary.txt
+
+	cat temp_summary
+
+	rm temp_summary		
+
 	#TODO: post regression script
   	#python3 $PRJ_SCRIPTS_DIR/regression_post_process.py $sim_area/
 	((j++))
