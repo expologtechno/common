@@ -138,8 +138,14 @@ do
 	#if grep -q "$PASS_STRING" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log"; then
 
 	# Search for "PASSED" or "FAILED" in the log file
-	curr_pass_cnt=$(grep -c "$PASS_STRING" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log")	
-	curr_fail_cnt=$(grep -c "$FAIL_STRING" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log")
+	if [ -f "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log" ]
+	then
+		curr_pass_cnt=$(grep -c "$PASS_STRING" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log")	
+		curr_fail_cnt=$(grep -c "$FAIL_STRING" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log")
+	else
+		curr_pass_cnt=0
+		curr_fail_cnt=0
+	fi
 
 	passed_count=`expr $passed_count + $curr_pass_cnt`
 	failed_count=`expr $failed_count + $curr_fail_cnt`
@@ -151,8 +157,8 @@ do
 	# Print the table
 	{
 		printf "\n=====================================================================================================\n"	
-		printf "| Log File: %-10s \n" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log"
-		printf "|-----------------------------------------------------------------------------------------------------\n"	
+		#printf "| Log File: %-10s \n" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log"
+		#printf "|-----------------------------------------------------------------------------------------------------\n"	
 		printf "| %-10s | %-10s | \n" "Result" "Count"  
 		printf "| %-10s | %-10s | \n" "PASSED" "$passed_count" 
 		printf "| %-10s | %-10s | \n" "FAILED" "$failed_count" 
@@ -160,13 +166,29 @@ do
 		printf "|-----------------------------------------------------------------------------------------------------\n"	
 		printf "| Regress summary : %-10s \n" "$regress_dir/regress_summary.txt"
 		printf "=====================================================================================================\n \n"	
-	} > temp_summary 
+	} > temp_regress_summary 
 
-	cat temp_summary >> $regress_dir/regress_summary.txt
+	{
+		printf "\n=====================================================================================================\n"	
+		#printf "| Log File: %-10s \n" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log"
+		printf "| %-10s\t | %-10s | %-30s | \n" "TEST_NAME" "Result" "Logfile"  
+		printf "|-----------------------------------------------------------------------------------------------------\n"	
+		if [ "$curr_pass_cnt" -eq 0 ] && [ "$curr_fail_cnt" -eq 0 ]; then
+			printf "| %-10s\t | %-10s | %-30s | \n" "${test_name[$i]}_$SEED_VALUE" "INCOMPLETE" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log" 
+		elif [ "$curr_pass_cnt" -gt 0 ] && [ "$curr_fail_cnt" -eq 0 ]; then 
+			printf "| %-10s\t | %-10s | %-30s | \n" "${test_name[$i]}_$SEED_VALUE" "PASSED" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log" 
+		elif [ "$curr_pass_cnt" -eq 0 ] && [ "$curr_fail_cnt" -gt 0 ]; then 
+			printf "| %-10s\t | %-10s | %-30s | \n" "${test_name[$i]}_$SEED_VALUE" "FAILED" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log" 
+		fi
+		#printf "|-----------------------------------------------------------------------------------------------------\n"	
+		#printf "| Regress summary : %-10s \n" "$regress_dir/regress_summary.txt"
+		printf "=====================================================================================================\n \n"	
+	} > temp_test_result 
 
-	cat temp_summary
-
-	rm temp_summary		
+	cat temp_regress_summary
+	#cat temp_test_result
+	
+	cat temp_test_result >> $regress_dir/regress_summary.txt
 
 	#TODO: post regression script
   	#python3 $PRJ_SCRIPTS_DIR/regression_post_process.py $sim_area/
@@ -176,5 +198,7 @@ do
    ((i++))
 done
 
-
+	cat temp_regress_summary >> $regress_dir/regress_summary.txt
+	rm temp_regress_summary		
+	rm temp_test_result
 

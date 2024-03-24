@@ -28,7 +28,10 @@ logo_print:
 	cat $(CMN_DIR)/EXPOLOG_logo.txt
 
 comp:
-	vlog -coveropt 3 +cover -L $(QUESTA_HOME)/uvm-1.2 +define+$(DUMP_OPTS) $(INC_DIR) $(DUT_FILE) $(TOP_FILE)
+	vlog -coveropt 3 +cover -L $(QUESTA_HOME)/uvm-1.2 +define+$(DUMP_OPTS) $(INC_DIR) $(DUT_FILE) $(TOP_FILE) -l $(TEST_NAME).vlog
+
+comp_regress:
+	vlog -coveropt 3 +cover -L $(QUESTA_HOME)/uvm-1.2 +define+$(DUMP_OPTS) $(INC_DIR) $(DUT_FILE) $(TOP_FILE) -l $(LOG_NAME).vlog
 
 vsim_example:
 	rm -rf $(LOG_DIR)/$(TEST_NAME)_$(SEED)
@@ -55,7 +58,7 @@ sim_regress:
 run: logo_print comp sim
 
 
-run_regress: logo_print comp sim_regress
+run_regress: logo_print comp_regress sim_regress
 
 
 regress: 
@@ -79,6 +82,7 @@ cov_merge:
 clean:
 	rm -rf work &
 	rm *.log &
+	rm *.vlog &
 	rm *.ucdb &
 	rm vsim.* 
 
