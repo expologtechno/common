@@ -42,14 +42,14 @@ vsim_example:
 run_example:	comp sim
 
 sim: 
-	vsim -c -debugDB +UVM_TESTNAME=$(TEST_NAME) $(SIM_OPTS) -l $(TEST_NAME).log -cvgperinstance -voptargs=+acc -coverage -voptargs="+cover=all" -do "coverage save -onexit $(TEST_NAME).ucdb; do $(CMN_DIR)/wave.do; run -all; exit" work.tb_top
+	vsim -c -debugDB +UVM_TESTNAME=$(TEST_NAME) $(SIM_OPTS) -l $(TEST_NAME).log -assertdebug -cvgperinstance -voptargs=+acc -coverage -voptargs="+cover=all" -do "coverage save -onexit $(TEST_NAME).ucdb; do $(CMN_DIR)/wave.do; run -all; exit" work.tb_top
 	tr -d '\r' < $(CMN_DIR)/EXPOLOG_logo.txt > temp_file
 	tr -d '\r' < $(TEST_NAME).log > temp_file_1
 	cat temp_file temp_file_1 > temp_log && mv temp_log $(TEST_NAME).log 
 	rm temp_file*
 
 sim_regress:
-	vsim -c -debugDB $(SIM_OPTS) -l $(LOG_NAME).log -cvgperinstance -voptargs=+acc -coverage -voptargs="+cover=all" -do "coverage save -onexit $(LOG_NAME).ucdb;run -all; exit"   work.tb_top
+	vsim -c -debugDB $(SIM_OPTS) -l $(LOG_NAME).log -assertdebug -cvgperinstance -voptargs=+acc -coverage -voptargs="+cover=all" -do "coverage save -onexit $(LOG_NAME).ucdb;run -all; exit"   work.tb_top
 	tr -d '\r' < $(CMN_DIR)/EXPOLOG_logo.txt > temp_file
 	tr -d '\r' < $(LOG_NAME).log > temp_file_1
 	cat temp_file temp_file_1 > temp_log && mv temp_log $(LOG_NAME).log
