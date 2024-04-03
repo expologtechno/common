@@ -171,18 +171,18 @@ do
 	{
 		printf "\n=====================================================================================================\n"	
 		#printf "| Log File: %-10s \n" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log"
-		printf "| %-10s\t | %-10s | %-30s | \n" "TEST_NAME" "Result" "Logfile"  
+		printf "| %-20s\t | %-10s | %-30s   \n" "TEST_NAME" "Result" "Logfile"  
 		printf "|-----------------------------------------------------------------------------------------------------\n"	
 		if [ "$curr_pass_cnt" -eq 0 ] && [ "$curr_fail_cnt" -eq 0 ]; then
-			printf "| %-10s\t | %-10s | %-30s | \n" "${test_name[$i]}_$SEED_VALUE" "INCOMPLETE" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log" 
+			printf "| %-20s | %-10s | %-30s   \n" "${test_name[$i]}_$SEED_VALUE" "INCOMPLETE" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log" 
 		elif [ "$curr_pass_cnt" -gt 0 ] && [ "$curr_fail_cnt" -eq 0 ]; then 
-			printf "| %-10s\t | %-10s | %-30s | \n" "${test_name[$i]}_$SEED_VALUE" "PASSED" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log" 
+			printf "| %-20s | %-10s | %-30s   \n" "${test_name[$i]}_$SEED_VALUE" "PASSED" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log" 
 		elif [ "$curr_pass_cnt" -eq 0 ] && [ "$curr_fail_cnt" -gt 0 ]; then 
-			printf "| %-10s\t | %-10s | %-30s | \n" "${test_name[$i]}_$SEED_VALUE" "FAILED" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log" 
+			printf "| %-20s | %-10s | %-30s   \n" "${test_name[$i]}_$SEED_VALUE" "FAILED" "$regress_dir/${test_name[$i]}_$SEED_VALUE/${test_name[$i]}_$SEED_VALUE.log" 
 		fi
 		#printf "|-----------------------------------------------------------------------------------------------------\n"	
 		#printf "| Regress summary : %-10s \n" "$regress_dir/regress_summary.txt"
-		printf "=====================================================================================================\n \n"	
+		printf "====================================================================================================="	
 	} > temp_test_result 
 
 	cat temp_regress_summary

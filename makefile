@@ -70,7 +70,12 @@ wave:
 
 
 vsim_gui: 
-	vsim -debugDB +UVM_TESTNAME=$(TEST_NAME) $(SIM_OPTS) -do "do $(CMN_DIR)/wave.do; run -all; exit" work.tb_top
+	vsim -debugDB +UVM_TESTNAME=$(TEST_NAME) $(SIM_OPTS) -l $(TEST_NAME).log -assertdebug -cvgperinstance -voptargs=+acc -coverage -voptargs="+cover=all" -do "coverage save -onexit $(TEST_NAME).ucdb; do $(CMN_DIR)/wave.do;  exit" work.tb_top
+	tr -d '\r' < $(CMN_DIR)/EXPOLOG_logo.txt > temp_file
+	tr -d '\r' < $(TEST_NAME).log > temp_file_1
+	cat temp_file temp_file_1 > temp_log && mv temp_log $(TEST_NAME).log 
+	rm temp_file*
+
 
 run_gui: logo_print comp vsim_gui
 
