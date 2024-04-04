@@ -34,7 +34,7 @@ To run the regression:
 	make regress
 
 To run single test:
-	make run TEST_NAME="your_test_name" SIM_OPTS="your_plusargs_or_defines"
+	make run TEST_NAME="your_test_name" SIM_OPTS="your_plusargs" DUMP_OPTS="your_defines"
 
 To Open the waves:
 	make wave
